@@ -6,42 +6,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.findAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         User users = userService.findUserById(id);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity<User> registerUser(@RequestBody User user) {
         User newUser = userService.registerUser(user);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<User> updateUser(@RequestBody User user) {
-        User updateUser = userService.updateUser(user);
-        return new ResponseEntity<>(updateUser, HttpStatus.OK);
-    }
+//    @PatchMapping
+//    public ResponseEntity<User> updateUser(@RequestBody User user) {
+//        User updateUser = userService.updateUser(user);
+//        return new ResponseEntity<>(updateUser, HttpStatus.OK);
+//    }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.noContent().build();
     }
 }

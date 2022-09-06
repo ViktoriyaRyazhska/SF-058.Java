@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .mvcMatchers(HttpMethod.PUT, "/user/comment").hasRole(Role.ADMIN.name())
+                .mvcMatchers(HttpMethod.PUT,"/user/update").hasRole(Role.ADMIN.name())
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
