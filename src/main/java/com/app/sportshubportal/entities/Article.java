@@ -30,7 +30,7 @@ public class Article {
      String content;
 
     //TODO ELement collection
-     Set<String> tags; //should be entity; ManyToMany
+//     Set<String> tags; //should be entity; ManyToMany
 
      @Enumerated(EnumType.STRING)
      ArticleCategoryEnum subcategory;

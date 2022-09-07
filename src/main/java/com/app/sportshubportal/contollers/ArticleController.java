@@ -71,7 +71,7 @@ public class ArticleController {
         articleDto.setLocation(article.getLocation());
         articleDto.setSubcategory(article.getSubcategory());
         articleDto.setPicture(article.getPicture());
-        articleDto.setTags(article.getTags());
+//        articleDto.setTags(article.getTags());
         return articleDto;
     }
 
@@ -79,7 +79,7 @@ public class ArticleController {
         Article article = modelMapper.map(articleDto, Article.class);
         article.setArticleHeadline(articleDto.getArticleHeadline());
         article.setCaption(articleDto.getCaption());
-        article.setTags(articleDto.getTags());
+//        article.setTags(articleDto.getTags());
         article.setPicture(articleDto.getPicture());
         article.setId(articleDto.getId());
         article.setLocation(articleDto.getLocation());
