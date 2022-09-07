@@ -1,7 +1,6 @@
 package com.app.sportshubportal.service;
 
 import com.app.sportshubportal.entitites.User;
-import com.app.sportshubportal.exception.EmailNotFoundException;
 import com.app.sportshubportal.exception.UserAlreadyExistsException;
 import com.app.sportshubportal.exception.UserNotFoundException;
 import com.app.sportshubportal.repository.UserRepo;
@@ -33,6 +32,7 @@ public class UserService implements UserDetailsService {
         return userRepo.save(user);
     }
 
+
     public List<User> findAllUsers() {
         return userRepo.findAll();
     }
@@ -48,7 +48,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void deleteUser(Long id) {
-        if(userRepo.deleteUserById(id) == 0){
+        if (userRepo.deleteUserById(id) == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
@@ -57,6 +57,6 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepo.findUserByUsernameIgnoreCase(username).orElseThrow(() ->
                 new UsernameNotFoundException(username));
-    }
 
+    }
 }

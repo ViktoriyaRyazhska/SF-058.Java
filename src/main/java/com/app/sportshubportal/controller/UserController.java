@@ -1,38 +1,46 @@
 package com.app.sportshubportal.controller;
 
+import com.app.sportshubportal.dto.UserDTO;
 import com.app.sportshubportal.entitites.User;
 import com.app.sportshubportal.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.modelmapper.ModelMapper;
 
-import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/users")
 public class UserController {
-    @Autowired
+
     private UserService userService;
+    private ModelMapper modelMapper;
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDTO registerUser(@RequestBody UserDTO userDTO) {
+        User user = convertToEntity(userDTO);
+        User newUser = userService.registerUser(user);
+        return convertToDto(newUser);
+    }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserDTO> users() {
         List<User> users = userService.findAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        return users.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
-        User users = userService.findUserById(id);
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User newUser = userService.registerUser(user);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.OK)
+    public UserDTO getUserById(@PathVariable("id") Long id) {
+        return convertToDto(userService.findUserById(id));
     }
 
 //    @PatchMapping
@@ -45,5 +53,25 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+
+    private UserDTO convertToDto(User user) {
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+        userDTO.setId(user.getId());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setProfilePicturePath(user.getProfilePicturePath());
+        return userDTO;
+    }
+
+    private User convertToEntity(UserDTO userDTO) {
+        User user = modelMapper.map(userDTO, User.class);
+        user.setId(userDTO.getId());
+        user.setUsername(userDTO.getUsername());
+        user.setPassword(userDTO.getPassword());
+        user.setEmail(userDTO.getEmail());
+        user.setProfilePicturePath(userDTO.getProfilePicturePath());
+        return user;
+
     }
 }
