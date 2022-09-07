@@ -1,7 +1,7 @@
 package com.app.sportshubportal.config;
 
 import com.app.sportshubportal.roles.Role;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -18,12 +18,12 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import javax.servlet.http.HttpServletResponse;
 
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserDetailsService userDetailsService;
+
+    private final PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -43,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .and()
                 .authorizeRequests()
-                .mvcMatchers(HttpMethod.PUT, "/user/comment").hasRole(Role.ADMIN.name())
+                .mvcMatchers(HttpMethod.PUT, "/users/comment").hasRole(Role.ADMIN.name())
+                .mvcMatchers(HttpMethod.PUT,"/users/update").hasRole(Role.ADMIN.name())
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
