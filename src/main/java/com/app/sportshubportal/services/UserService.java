@@ -1,9 +1,9 @@
-package com.app.sportshubportal.service;
+package com.app.sportshubportal.services;
 
-import com.app.sportshubportal.entitites.User;
+import com.app.sportshubportal.entities.User;
 import com.app.sportshubportal.exception.UserAlreadyExistsException;
 import com.app.sportshubportal.exception.UserNotFoundException;
-import com.app.sportshubportal.repository.UserRepo;
+import com.app.sportshubportal.repositories.UserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;

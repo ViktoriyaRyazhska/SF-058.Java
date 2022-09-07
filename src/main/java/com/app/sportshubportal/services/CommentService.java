@@ -3,7 +3,7 @@ package com.app.sportshubportal.services;
 import com.app.sportshubportal.entities.Article;
 import com.app.sportshubportal.entities.Comment;
 import com.app.sportshubportal.entities.User;
-import com.app.sportshubportal.exceptions.EntityNotFoundException;
+import com.app.sportshubportal.exception.EntityNotFoundException;
 import com.app.sportshubportal.repositories.ArticleRepository;
 import com.app.sportshubportal.repositories.CommentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
-package com.app.sportshubportal.controller;
+package com.app.sportshubportal.contollers;
 
 import com.app.sportshubportal.dto.UserDTO;
-import com.app.sportshubportal.entitites.User;
-import com.app.sportshubportal.service.UserService;
+import com.app.sportshubportal.entities.User;
+import com.app.sportshubportal.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,4 +74,5 @@ public class UserController {
         return user;
 
     }
+
 }

@@ -1,9 +1,14 @@
 package com.app.sportshubportal.repositories;
 
 import com.app.sportshubportal.entities.Article;
-import lombok.NonNull;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ArticleRepository extends CrudRepository<Article, Long> {
-    boolean existsById(@NonNull Long id);
+import java.util.Optional;
+
+@Repository
+public interface ArticleRepository extends JpaRepository<Article, Long> {
+
+    Optional<Article> findArticleByTitle(String title);
+
 }

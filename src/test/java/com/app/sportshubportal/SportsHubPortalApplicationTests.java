@@ -1,8 +1,8 @@
 package com.app.sportshubportal;
 
-import com.app.sportshubportal.entitites.User;
+import com.app.sportshubportal.entities.User;
 import com.app.sportshubportal.roles.Role;
-import com.app.sportshubportal.service.UserService;
+import com.app.sportshubportal.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
