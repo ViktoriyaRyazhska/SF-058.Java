@@ -10,36 +10,38 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="articles")
+@Table(name = "articles")
 @NoArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 public class Article {
 
-     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-     Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
-     String articleHeadline;
+    String articleHeadline;
 
-     @ManyToOne
-     @JoinColumn(name = "author_id")
+    @ManyToOne
+    @JoinColumn(name = "author_id")
 
-     User author;
+    User author;
 
-     String caption;
+    String caption;
 
-     String content;
+    String content;
 
     //TODO ELement collection
 //     Set<String> tags; //should be entity; ManyToMany
 
-     @Enumerated(EnumType.STRING)
-     ArticleCategoryEnum subcategory;
+    @Enumerated(EnumType.STRING)
+    ArticleCategoryEnum subcategory;
 
-     String location;
+    String location;
 
-     String picture;
+    String picture;
 
-     @OneToMany(mappedBy = "article")
-     List<Comment> comments;
+    @OneToMany(mappedBy = "article")
+    List<Comment> comments;
 
 }

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class ArticleController {
 
     ArticleService articleService;
-     ModelMapper modelMapper;
+    ModelMapper modelMapper;
 
     public ArticleController(ArticleService articleService, ModelMapper modelMapper) {
         this.articleService = articleService;
@@ -25,11 +25,11 @@ public class ArticleController {
 
     @GetMapping
     public List<ArticleDTO> list() {
-            List<Article> articles = articleService.getAllArticles();
-            return articles.stream()
-                    .map(this::convertToDto)
-                    .collect(Collectors.toList());
-        }
+        List<Article> articles = articleService.getAllArticles();
+        return articles.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
 
 
     @PostMapping
@@ -40,7 +40,7 @@ public class ArticleController {
 
     }
 
-    @GetMapping( "/{id}")
+    @GetMapping("/{id}")
     public ArticleDTO get(@PathVariable Long id) {
         return convertToDto(articleService.getArticleById(id));
     }

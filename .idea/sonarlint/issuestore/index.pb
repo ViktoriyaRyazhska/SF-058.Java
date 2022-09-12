@@ -1,3 +1,21 @@
 
 9
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+z
+Jsrc/test/java/com/app/sportshubportal/SportsHubPortalApplicationTests.java,4\6\4615739b41f8472fcbdfc3e52c9f936db228ce3d
+o
+?src/main/java/com/app/sportshubportal/services/UserService.java,f\c\fc5f37e35bb9c0ed8909150ad76750acca8b1b4d
+p
+@src/main/java/com/app/sportshubportal/config/SecurityConfig.java,0\7\078e8f847d02d1b3e180e11ec030ce157f399c1c
+w
+Gsrc/main/java/com/app/sportshubportal/config/PasswordEncoderConfig.java,f\a\fab18e75f72235d18fc9d50963406c85ec966c1f
+z
+Jsrc/main/java/com/app/sportshubportal/repositories/CommentsRepository.java,e\6\e6caae040e728c46399acf789fe0d843e17a9bf8
+h
+8src/main/java/com/app/sportshubportal/entities/User.java,8\8\887a69e63fbe593eca04f71bafc3b4902ecf46a9
+w
+Gsrc/main/java/com/app/sportshubportal/contollers/CommentController.java,c\6\c65ebfa8d37c5f419e8ed128b237897d89461850
+n
+>src/main/java/com/app/sportshubportal/ArticleCategoryEnum.java,6\9\69638ac22c359f40d1d0804d0fb2207df3395bcc
+u
+Esrc/main/java/com/app/sportshubportal/SportsHubPortalApplication.java,2\f\2f5a2d8cf02e8a45a37ca4b699145ac0f4838d8c
