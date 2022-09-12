@@ -1,5 +1,6 @@
 package com.app.sportshubportal.services;
 
+import com.app.sportshubportal.dto.CountDTO;
 import com.app.sportshubportal.entities.Article;
 import com.app.sportshubportal.entities.Comment;
 import com.app.sportshubportal.entities.User;
@@ -29,37 +30,40 @@ public class CommentService {
         if (!articleRepository.existsById(articleId)) {
             throw new EntityNotFoundException("Article not found");
         }
-
-//        TODO: check if user is logged-in?
-
         return commentsRepository.getCommentsByArticleId(articleId);
     }
 
     public Comment getArticleComment(Long articleId, Long commentId) {
-        return commentsRepository.getCommentById(commentId);
+        return commentsRepository.findById(commentId)
+                .orElseThrow(() -> new EntityNotFoundException("Comment not found"));
     }
 
-    public Comment addComment(Long id, User user, String comment) {
-        //        TODO: add if user is logged-in
-        //              time
-        //              id generation
-        //              error if smth doesn't exist
+    public CountDTO getCount() {
+        int count = (int) commentsRepository.count();
+        return new CountDTO(count);
+    }
 
+    public Comment add(Long id, User user, String comment) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         Comment commentCreated = new Comment(comment, article, user);   // user ? test it
         return commentsRepository.save(commentCreated);
     }
 
-    public Comment editComment(Long articleId, User user, Long commentId, String newContent) {
-        Comment comment = commentsRepository.getCommentById(commentId);
+    public Comment update(Long id, User user, Comment comment) {
         if (user != comment.getCreatedBy()) throw new ResponseStatusException(HttpStatus.FORBIDDEN);    // ?
 
-        comment.setText(newContent);
-        return commentsRepository.save(comment);
+        Comment temp = commentsRepository.getCommentById(id);
+        temp.setText(comment.getText());
+        return commentsRepository.save(temp);
     }
 
     @Transactional
-    public void deleteComment(Long commentId) {
+    public void deleteComment(Long commentId, User user) {
+        if (!commentsRepository.existsById(commentId)) throw new EntityNotFoundException("Comment not found");
+
+        Comment temp = commentsRepository.getCommentById(commentId);
+        if (user != temp.getCreatedBy()) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+
         if (commentsRepository.deleteCommentById(commentId) == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
