@@ -1,6 +1,7 @@
 package com.app.sportshubportal.services;
 
 import com.app.sportshubportal.entities.User;
+import com.app.sportshubportal.exception.BusinessException;
 import com.app.sportshubportal.exception.UserAlreadyExistsException;
 import com.app.sportshubportal.exception.UserNotFoundException;
 import com.app.sportshubportal.repositories.UserRepo;
@@ -11,10 +12,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -24,7 +28,7 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
 
-    public User registerUser(User user) {
+    public User registerUser(@Valid User user) {
         if (userRepo.existsByUsernameIgnoreCase(user.getUsername())) {
             throw new UserAlreadyExistsException(user.getUsername());
         }
@@ -37,13 +41,17 @@ public class UserService implements UserDetailsService {
         return userRepo.findAll();
     }
 
-//    public User updateUser(User user) {
-//        return userRepo.save(user);
-//    }
+    public User updateUser(User user) {
+        Optional<User> optionalUser = userRepo.findById(user.getId());
+        if(optionalUser.isEmpty()){
+            throw new UserNotFoundException("User with ID " + user.getId() + " does not exist.");
+        }
+        return userRepo.save(user);
+    }
 
     public User findUserById(Long id) {
         return userRepo.findUserById(id).orElseThrow(() ->
-                new UserNotFoundException("User by id " + id + " was not found."));
+                new UserNotFoundException("User with id:" + id + " was not found!"));
     }
 
     @Transactional
@@ -58,5 +66,9 @@ public class UserService implements UserDetailsService {
         return userRepo.findUserByUsernameIgnoreCase(username).orElseThrow(() ->
                 new UsernameNotFoundException(username));
 
+    }
+    @ExceptionHandler({UserNotFoundException.class, UserAlreadyExistsException.class})
+    public BusinessException handleExceptions(RuntimeException e) {
+        return new BusinessException(e.getMessage());
     }
 }

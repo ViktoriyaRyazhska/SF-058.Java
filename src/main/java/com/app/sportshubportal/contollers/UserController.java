@@ -43,11 +43,13 @@ public class UserController {
         return convertToDto(userService.findUserById(id));
     }
 
-//    @PatchMapping
-//    public ResponseEntity<User> updateUser(@RequestBody User user) {
-//        User updateUser = userService.updateUser(user);
-//        return new ResponseEntity<>(updateUser, HttpStatus.OK);
-//    }
+    @PatchMapping
+    @ResponseStatus(HttpStatus.OK)
+    public UserDTO updateUser(@RequestBody UserDTO userDTO) {
+        User user = convertToEntity(userDTO);
+        User updateUser = userService.updateUser(user);
+        return convertToDto(updateUser);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
@@ -59,6 +61,7 @@ public class UserController {
         UserDTO userDTO = modelMapper.map(user, UserDTO.class);
         userDTO.setId(user.getId());
         userDTO.setUsername(user.getUsername());
+        userDTO.setPassword(user.getPassword());
         userDTO.setEmail(user.getEmail());
         userDTO.setProfilePicturePath(user.getProfilePicturePath());
         return userDTO;

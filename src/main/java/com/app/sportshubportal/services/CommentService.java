@@ -4,11 +4,13 @@ import com.app.sportshubportal.entities.Article;
 import com.app.sportshubportal.entities.Comment;
 import com.app.sportshubportal.entities.User;
 import com.app.sportshubportal.exception.EntityNotFoundException;
+import com.app.sportshubportal.exception.BusinessException;
 import com.app.sportshubportal.repositories.ArticleRepository;
 import com.app.sportshubportal.repositories.CommentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
@@ -63,5 +65,9 @@ public class CommentService {
         if (commentsRepository.deleteCommentById(commentId) == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+    }
+    @ExceptionHandler(EntityNotFoundException.class)
+    BusinessException handleInvalidRequestsException(RuntimeException e) {
+        return new BusinessException(e.getMessage());
     }
 }

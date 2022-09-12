@@ -3,6 +3,7 @@ package com.app.sportshubportal.services;
 import com.app.sportshubportal.entities.Article;
 import com.app.sportshubportal.exception.ArticleNotFoundException;
 import com.app.sportshubportal.repositories.ArticleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,14 +14,15 @@ import java.util.List;
 @Transactional
 public class ArticleService {
 
-    ArticleRepository articleRepository;
+    @Autowired
+    private ArticleRepository articleRepository;
 
-    public ArticleService(ArticleRepository articleRepository) {
-        this.articleRepository = articleRepository;
-    }
+//    public ArticleService(ArticleRepository articleRepository) {
+//        this.articleRepository = articleRepository;
+//    }
 
     public Article addArticle(Article article) {
-        return this.articleRepository.save(article);
+        return articleRepository.save(article);
     }
 
 
@@ -42,6 +44,10 @@ public class ArticleService {
     public void removeArticle(Long id) {
          this.articleRepository.deleteById(id);
     }
+//    @ExceptionHandler(ArticleNotFoundException.class)
+//    ExceptionDTO handleInvalidRequestsException(RuntimeException e) {
+//        return new ExceptionDTO(e.getMessage());
+//    }
 
 }
 

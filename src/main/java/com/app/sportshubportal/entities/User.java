@@ -1,15 +1,16 @@
 package com.app.sportshubportal.entities;
 
 import com.app.sportshubportal.roles.Role;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.app.sportshubportal.validations.EmailValidator;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -20,10 +21,16 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
+
+    @NotBlank(message = "username is mandatory")
     private String username;
+    @NotBlank
     private String password;
+    @EmailValidator
+    @NotBlank
     private String email;
     @Enumerated(EnumType.STRING)
+    @NotBlank
     private Role role;
     private String profilePicturePath;
 
@@ -59,4 +66,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

@@ -15,7 +15,9 @@ import java.util.Set;
 @Getter @Setter
 public class Article {
 
-     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+     @Column(nullable = false, updatable = false)
      Long id;
 
      String articleHeadline;
@@ -42,4 +44,14 @@ public class Article {
      @OneToMany(mappedBy = "article")
      List<Comment> comments;
 
+     public Article(String articleHeadline, User author, String caption, String content, ArticleCategoryEnum subcategory, String location, String picture, List<Comment> comments) {
+          this.articleHeadline = articleHeadline;
+          this.author = author;
+          this.caption = caption;
+          this.content = content;
+          this.subcategory = subcategory;
+          this.location = location;
+          this.picture = picture;
+          this.comments = comments;
+     }
 }

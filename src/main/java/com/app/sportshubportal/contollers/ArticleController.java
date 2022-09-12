@@ -3,7 +3,9 @@ package com.app.sportshubportal.contollers;
 import com.app.sportshubportal.dto.ArticleDTO;
 import com.app.sportshubportal.entities.Article;
 import com.app.sportshubportal.services.ArticleService;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,16 +14,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/articles")
 public class ArticleController {
 
-    ArticleService articleService;
-     ModelMapper modelMapper;
+    private ArticleService articleService;
+    private ModelMapper modelMapper;
 
-    public ArticleController(ArticleService articleService, ModelMapper modelMapper) {
-        this.articleService = articleService;
-        this.modelMapper = modelMapper;
-    }
+//    public ArticleController(ArticleService articleService, ModelMapper modelMapper) {
+//        this.articleService = articleService;
+//        this.modelMapper = modelMapper;
+//    }
 
     @GetMapping
     public List<ArticleDTO> list() {
@@ -33,6 +36,7 @@ public class ArticleController {
 
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ArticleDTO create(@RequestBody ArticleDTO articleDto) throws ParseException {
         Article article = convertToEntity(articleDto);
         Article articleCreated = articleService.addArticle(article);
