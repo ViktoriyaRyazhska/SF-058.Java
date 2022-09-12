@@ -30,7 +30,6 @@ public class User implements UserDetails {
     @NotBlank
     private String email;
     @Enumerated(EnumType.STRING)
-    @NotBlank
     private Role role;
     private String profilePicturePath;
 

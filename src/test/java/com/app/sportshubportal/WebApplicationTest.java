@@ -75,6 +75,8 @@ public class WebApplicationTest {
         assertThat(test1).isTrue();
         assertThat(test2).isTrue();
         assertThat(test3).isTrue();
+
+        userService.deleteUser(user.getId());
     }
 
 
@@ -174,6 +176,7 @@ public class WebApplicationTest {
         assertThrows(UserAlreadyExistsException.class, () -> {
             userService.registerUser(john2);
         });
+        userService.deleteUser(john1.getId());
 
     }
 
@@ -234,6 +237,8 @@ public class WebApplicationTest {
         assertDoesNotThrow(() -> {
             userService.loadUserByUsername(chad.getUsername());
         }, "User should be found");
+
+        userService.deleteUser(chad.getId());
     }
 
     @Test
@@ -258,6 +263,7 @@ public class WebApplicationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].email").value("jonatham@gmail.com"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].profilePicturePath").value("jonatham.png"));
 
+        userService.deleteUser(jonatham.getId());
     }
 
     @Test
@@ -290,6 +296,7 @@ public class WebApplicationTest {
             userService.loadUserByUsername(newUser.getUsername());
         }, "User should be found");
 
+        userService.deleteUser(newUser.getId());
     }
 
     @Test
@@ -306,6 +313,8 @@ public class WebApplicationTest {
         assertDoesNotThrow(() -> {
             userService.findAllUsers();
         }, "Should not throw any exception because the user already is registered.");
+
+        userService.deleteUser(user.getId());
 
     }
 
@@ -345,6 +354,7 @@ public class WebApplicationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].email").value("rebecca@gmail.com"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].profilePicturePath").value("rebeccapicture.png"));
 
+        userService.deleteUser(rebecca.getId());
     }
 
     @Test
