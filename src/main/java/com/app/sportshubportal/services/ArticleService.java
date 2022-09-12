@@ -3,6 +3,7 @@ package com.app.sportshubportal.services;
 import com.app.sportshubportal.entities.Article;
 import com.app.sportshubportal.exception.ArticleNotFoundException;
 import com.app.sportshubportal.repositories.ArticleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ public class ArticleService {
 
     ArticleRepository articleRepository;
 
+    @Autowired
     public ArticleService(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
     }

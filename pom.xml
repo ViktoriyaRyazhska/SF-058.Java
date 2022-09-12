@@ -13,9 +13,16 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>SportsHubPortal</name>
     <description>SportsHubPortal</description>
+
     <properties>
         <java.version>17</java.version>
+
+        <liquibase.propertyFile>src/main/resources/liquibase/liquibase.properties</liquibase.propertyFile>
+        <!-- Liquibase core and liquibase maven plugin version -->
+        <liquibase.version>4.2.2</liquibase.version>
+
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -64,6 +71,18 @@
             <version>3.1.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+
+        <!--Liquibase extension for hibernate integration including generating
+            changesets based on changed hibernate mapping files-->
+        <dependency>
+            <groupId>org.liquibase.ext</groupId>
+            <artifactId>liquibase-hibernate5</artifactId>
+            <version>4.15.0</version>
+        </dependency>
 
     </dependencies>
 
@@ -72,7 +91,27 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+
             </plugin>
+
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+
+                <configuration>
+                    <propertyFile>src/main/resources/liquibase.properties</propertyFile>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
