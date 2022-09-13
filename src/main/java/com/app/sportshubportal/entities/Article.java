@@ -17,7 +17,7 @@ import java.util.Set;
 public class Article {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     Long id;
 
     String articleHeadline;

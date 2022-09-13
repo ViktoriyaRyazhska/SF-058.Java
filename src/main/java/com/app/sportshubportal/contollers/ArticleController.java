@@ -37,7 +37,6 @@ public class ArticleController {
         Article article = convertToEntity(articleDto);
         Article articleCreated = articleService.addArticle(article);
         return convertToDto(articleCreated);
-
     }
 
     @GetMapping("/{id}")
