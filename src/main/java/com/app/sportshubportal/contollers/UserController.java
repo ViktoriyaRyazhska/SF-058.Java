@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO registerUser(@RequestBody UserDTO userDTO) {
+    public UserDTO registerUser(@RequestBody @Valid UserDTO userDTO) {
         User user = convertToEntity(userDTO);
         User newUser = userService.registerUser(user);
         return convertToDto(newUser);

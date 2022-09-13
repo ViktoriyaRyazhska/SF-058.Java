@@ -10,7 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -33,13 +32,13 @@ public class User implements UserDetails {
     private Role role;
     private String profilePicturePath;
 
-    public User(String username, String password, String email, Role role, String profilePicturePath) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.role = role;
-        this.profilePicturePath = profilePicturePath;
-    }
+//    public User(String username, String password, String email, Role role, String profilePicturePath) {
+//        this.username = username;
+//        this.password = password;
+//        this.email = email;
+//        this.role = role;
+//        this.profilePicturePath = profilePicturePath;
+//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

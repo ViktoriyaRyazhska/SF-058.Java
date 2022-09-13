@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +27,7 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
 
-    public User registerUser(@Valid User user) {
+    public User registerUser(User user) {
         if (userRepo.existsByUsernameIgnoreCase(user.getUsername())) {
             throw new UserAlreadyExistsException(user.getUsername());
         }
