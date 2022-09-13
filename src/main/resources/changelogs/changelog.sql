@@ -31,8 +31,8 @@ create table "comments"
     primary key ("id")
 );
 alter table "articles"
-    add constraint "FKiujgap5iw44w7ibck7e62fo2h" foreign key ("author_id") references "user";
+    add constraint "FK_articles_author_id__user" foreign key ("author_id") references "user";
 alter table "comments"
-    add constraint "FKt3o4cckaf1q274ijgeihggf" foreign key ("article_id") references "articles";
+    add constraint "FK_comments_article_id__articles" foreign key ("article_id") references "articles";
 alter table "comments"
-    add constraint "FK2pevlmsa4khk16hs2iah5ynj2" foreign key ("created_by_id") references "user";
+    add constraint "FK_comments_created_by_id__user" foreign key ("created_by_id") references "user";

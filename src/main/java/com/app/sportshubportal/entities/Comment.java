@@ -1,5 +1,6 @@
 package com.app.sportshubportal.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "comments")
 public class Comment {
     @Id @GeneratedValue
@@ -32,4 +34,8 @@ public class Comment {
         this.article = article;
         this.createdBy = createdBy;
     }
+
+//    @Column(name = "test_field")
+//    private String testField;
+
 }

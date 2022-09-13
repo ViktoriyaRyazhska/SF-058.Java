@@ -1,11 +1,13 @@
 package com.app.sportshubportal.services;
 
+import com.app.sportshubportal.dto.CommentDTO;
 import com.app.sportshubportal.entities.Article;
 import com.app.sportshubportal.entities.Comment;
 import com.app.sportshubportal.entities.User;
 import com.app.sportshubportal.exception.EntityNotFoundException;
 import com.app.sportshubportal.repositories.ArticleRepository;
 import com.app.sportshubportal.repositories.CommentsRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
+@Slf4j
 @Service
 public class CommentService {
     private final CommentsRepository commentsRepository;
@@ -29,37 +33,49 @@ public class CommentService {
         if (!articleRepository.existsById(articleId)) {
             throw new EntityNotFoundException("Article not found");
         }
-
-//        TODO: check if user is logged-in?
-
         return commentsRepository.getCommentsByArticleId(articleId);
     }
 
     public Comment getArticleComment(Long articleId, Long commentId) {
-        return commentsRepository.getCommentById(commentId);
+        Comment temp = commentsRepository.getCommentById(commentId);
+        if(temp == null) {
+            throw new EntityNotFoundException("Comment not found");
+        }
+
+        if (!Objects.equals(temp.getArticle().getId(), articleId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return commentsRepository.findById(commentId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Comment addComment(Long id, User user, String comment) {
-        //        TODO: add if user is logged-in
-        //              time
-        //              id generation
-        //              error if smth doesn't exist
-
-        Article article = articleRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        Comment commentCreated = new Comment(comment, article, user);   // user ? test it
+    public Comment add(Long id, User user, CommentDTO inputComment) {
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Comment commentCreated = new Comment(inputComment.getText(), article, user);
         return commentsRepository.save(commentCreated);
     }
 
-    public Comment editComment(Long articleId, User user, Long commentId, String newContent) {
-        Comment comment = commentsRepository.getCommentById(commentId);
-        if (user != comment.getCreatedBy()) throw new ResponseStatusException(HttpStatus.FORBIDDEN);    // ?
-
-        comment.setText(newContent);
-        return commentsRepository.save(comment);
+    public Comment update(Long id, User user, CommentDTO inputComment) {
+        Comment temp = commentsRepository.getCommentById(id);
+        if (!Objects.equals(user.getId(), temp.getCreatedBy().getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        temp.setText(inputComment.getText());
+        return commentsRepository.save(temp);
     }
 
     @Transactional
-    public void deleteComment(Long commentId) {
+    public void deleteComment(Long commentId, User user) {
+        if (!commentsRepository.existsById(commentId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        Comment temp = commentsRepository.getCommentById(commentId);
+        if (!Objects.equals(user.getId(), temp.getCreatedBy().getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
         if (commentsRepository.deleteCommentById(commentId) == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }

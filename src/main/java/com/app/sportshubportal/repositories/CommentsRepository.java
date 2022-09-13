@@ -1,5 +1,6 @@
 package com.app.sportshubportal.repositories;
 
+import com.app.sportshubportal.entities.Article;
 import com.app.sportshubportal.entities.Comment;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
